@@ -38,9 +38,9 @@ A modern real estate platform helping users find their dream homes with intuitiv
 ## 🛠 Tech Stack
 ### Frontend: 
 
-- [] React + Vite + TypeScript
+-  React + Vite + TypeScript
 
-- [] Styling: Tailwind CSS + MUI
+-  Styling: Tailwind CSS + MUI
 
-- [] State Management: React Context
+-  State Management: React Context
 
