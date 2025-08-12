@@ -44,3 +44,11 @@ A modern real estate platform helping users find their dream homes with intuitiv
 
 -  State Management: React Context
 
+### Backend:
+
+-  Node.js + Express
+
+-  Database: PostgreSQL + TypeORM
+
+-  Authentication: JWT
+
