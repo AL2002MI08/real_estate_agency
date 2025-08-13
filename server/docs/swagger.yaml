@@ -1,0 +1,280 @@
+openapi: 3.0.0
+info:
+  title: Residency & User API
+  version: 1.0.0
+  description: API documentation for User, Residency, Booking, and Favorites backend
+
+servers:
+  - url: http://localhost:5000/api
+    description: Local server
+
+paths:
+  # ---------------------- USER ROUTES ----------------------
+  /register:
+    post:
+      summary: Register a new user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  format: email
+                  example: user@example.com
+                password:
+                  type: string
+                  example: StrongPassword123
+                name:
+                  type: string
+                  example: John Doe
+      responses:
+        201:
+          description: User registered successfully
+        400:
+          description: Validation error or user already exists
+
+  /login:
+    post:
+      summary: Login a user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  format: email
+                  example: user@example.com
+                password:
+                  type: string
+                  example: StrongPassword123
+      responses:
+        200:
+          description: Login successful, returns JWT token
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+                    example: jwt.token.here
+        400:
+          description: Validation error
+        401:
+          description: Invalid credentials
+
+  /profile:
+    get:
+      summary: Get current user profile
+      security:
+        - bearerAuth: []
+      responses:
+        200:
+          description: Returns user profile
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  email:
+                    type: string
+                  name:
+                    type: string
+        401:
+          description: Unauthorized, invalid or missing token
+
+  # ---------------------- RESIDENCY ROUTES ----------------------
+  /create:
+    post:
+      summary: Create a new residency
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateResidencyRequest'
+      responses:
+        201:
+          description: Residency created successfully
+        400:
+          description: Validation error
+
+  /allresidencies:
+    get:
+      summary: Get all residencies
+      responses:
+        200:
+          description: Returns list of residencies
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Residency'
+
+  /{id}:
+    get:
+      summary: Get residency by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Residency ID
+      responses:
+        200:
+          description: Returns a residency
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Residency'
+        404:
+          description: Residency not found
+
+  # ---------------------- BOOKING ROUTES ----------------------
+  /bookVisit/{id}:
+    post:
+      summary: Book a visit for a residency
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Residency ID
+      responses:
+        200:
+          description: Visit booked successfully
+        400:
+          description: Error booking visit
+        401:
+          description: Unauthorized
+
+  /allBookings:
+    post:
+      summary: Get all bookings for the user
+      responses:
+        200:
+          description: Returns all bookings
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Booking'
+
+  /removeBooking/{id}:
+    post:
+      summary: Cancel a booking
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Booking ID
+      responses:
+        200:
+          description: Booking canceled successfully
+        400:
+          description: Error canceling booking
+        401:
+          description: Unauthorized
+
+  # ---------------------- FAVORITES ROUTES ----------------------
+  /toFav/{rid}:
+    post:
+      summary: Add a residency to favorites
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: rid
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Residency ID
+      responses:
+        200:
+          description: Added to favorites
+        401:
+          description: Unauthorized
+
+  /allFav:
+    post:
+      summary: Get all favorites for user
+      security:
+        - bearerAuth: []
+      responses:
+        200:
+          description: Returns all favorite residencies
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Residency'
+        401:
+          description: Unauthorized
+
+# ---------------------- COMPONENT SCHEMAS ----------------------
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    CreateResidencyRequest:
+      type: object
+      properties:
+        data:
+          type: object
+          description: Residency data (custom schema)
+          additionalProperties: true
+
+    Residency:
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        description:
+          type: string
+        facilities:
+          type: object
+          additionalProperties:
+            oneOf:
+              - type: string
+              - type: boolean
+              - type: number
+
+    Booking:
+      type: object
+      properties:
+        id:
+          type: string
+        residencyId:
+          type: string
+        userId:
+          type: string
+        date:
+          type: string
+          format: date-time
