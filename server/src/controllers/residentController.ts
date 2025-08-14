@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { AppDataSource } from "../config/database";
 import { Residency } from "../entities/residency.entity";
-import { User } from "../entities/User.entity";
+import { User } from "../entities/user.entity";
 
 const residencyRepository = AppDataSource.getRepository(Residency);
 const userRepository = AppDataSource.getRepository(User);

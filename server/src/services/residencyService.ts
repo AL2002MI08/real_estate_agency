@@ -1,7 +1,6 @@
-// services/residencyService.ts
 import { AppDataSource } from "../config/database";
 import { Residency } from "../entities/residency.entity";
-import { User } from "../entities/User.entity";
+import { User } from "../entities/user.entity";
 import {
   CreateResidencyRequest,
   ResidencyResponse,
