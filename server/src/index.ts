@@ -1,10 +1,11 @@
+import 'module-alias/register';
 import express from "express";
 import dotenv from "dotenv";
 dotenv.config();
 import cookieParser from "cookie-parser";
 import cors from "cors";
-import { userRoute } from "../src/routes/userRoute";
-import { residencyRoute } from "../src/routes/residencyRoute";
+import { userRoute } from "@routes/userRoute";
+import { residencyRoute } from "@routes/residencyRoute";
 import { AppDataSource } from "./config/database";
 import { setupSwagger } from "./swagger";
 

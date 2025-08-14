@@ -6,6 +6,10 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
+    "baseUrl": "./",
+    "paths": {
+      "@routes/*": ["src/routes/*"]
+    },
     "target": "ES2021",
     "sourceMap": true,
     "outDir": "./dist",
