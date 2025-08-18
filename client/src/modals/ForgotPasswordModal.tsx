@@ -10,7 +10,7 @@ import {
     Alert,
     Typography
 } from '@mui/material';
-import { Button } from '../components/Button'
+import Button from '../components/ui/Button';
 
 interface ForgotPasswordProps {
     open: boolean;
@@ -84,7 +84,7 @@ export default function ForgotPassword({ open, handleClose }: ForgotPasswordProp
                     {!success && (
                         <Button
 
-                            buttonVariant="primary"
+                            variant="primary"
                             disabled={isLoading || !email}
                         >
                             {isLoading ? (

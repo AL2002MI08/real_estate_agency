@@ -3,7 +3,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import { LoginForm } from "../Forms/LoginForm";
 import ForgotPassword from "../modals/ForgotPasswordModal";
 
-export function Login() {
+export default function Login() {
   const [openModal, setOpenModal] = React.useState(false);
   const handleCloseModal = () => setOpenModal(false);
 
