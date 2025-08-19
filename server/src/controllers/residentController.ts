@@ -7,6 +7,7 @@ const residencyRepository = AppDataSource.getRepository(Residency);
 const userRepository = AppDataSource.getRepository(User);
 
 export const createResidency = async (req: Request, res: Response) => {
+  const response = req.body.data
   const {
     title,
     description,
@@ -17,14 +18,13 @@ export const createResidency = async (req: Request, res: Response) => {
     facilities,
     image,
     userEmail,
-  } = req.body.data;
-
-  console.log(req.body.data);
+  } = response;
 
   try {
     const user = await userRepository.findOne({
       where: { email: userEmail },
     });
+
     if (!user) {
       return res.status(404).json({
         error: "User not found",

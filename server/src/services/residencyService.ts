@@ -4,8 +4,8 @@ import { User } from "../entities/user.entity";
 import {
   CreateResidencyRequest,
   ResidencyResponse,
+  extractResidencyData
 } from "../types/residency.types";
-import { createResidencySchema } from "../validation/authValidator";
 
 const residencyRepository = AppDataSource.getRepository(Residency);
 const userRepository = AppDataSource.getRepository(User);
@@ -18,15 +18,9 @@ export const createResidencyService = async (
   residency?: ResidencyResponse;
   savedResidency?: ResidencyResponse;
 }> => {
-  try {
-    createResidencySchema.parse(residencyData);
-  } catch (error: any) {
-    const errorMessages = error.errors.map(
-      (err: any) => `${err.path.join(".")}: ${err.message}`
-    );
-    throw new Error(`Validation failed: ${errorMessages.join(", ")}`);
-  }
 
+  const data = extractResidencyData(residencyData);
+  
   const {
     title,
     description,
@@ -37,7 +31,7 @@ export const createResidencyService = async (
     facilities,
     image,
     userEmail,
-  } = residencyData;
+  } = data;
 
   try {
     const user = await userRepository.findOne({
@@ -47,6 +41,7 @@ export const createResidencyService = async (
     if (!user) {
       throw new Error("User not found");
     }
+
     const existingResidency = await residencyRepository.findOne({
       where: { address, userEmail },
     });
@@ -77,8 +72,10 @@ export const createResidencyService = async (
       success: true,
       message: "Residency created successfully",
       residency: {
-        ...savedResidency, 
-        facilities: Object.values(savedResidency.facilities).map((value) => String(value)),
+        ...savedResidency,
+        facilities: Object.entries(savedResidency.facilities || {}).map(([key, value]) => 
+          typeof value === 'boolean' && value ? key : `${key}: ${value}`
+        ).filter(Boolean),
       },
     };
   } catch (error: unknown) {
