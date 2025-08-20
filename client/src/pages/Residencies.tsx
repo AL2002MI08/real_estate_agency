@@ -12,7 +12,6 @@ const Residencies: React.FC = () => {
       title="All Our Properties"
       properties={residencies}
       enableFavorites={true}
-      enableBookings={true}
       loading={loading}           
       error={error}  
       onViewDetails={(property: Property) => navigate(`/residencies/${property.id}`)}

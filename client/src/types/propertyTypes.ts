@@ -1,5 +1,5 @@
 export interface Property {
-  id: number;
+  id?: number;
   title: string;
   description: string;
   price: number;
@@ -8,10 +8,12 @@ export interface Property {
   city: string;
   facilities: {
     Garden?: boolean;
-    Parking?: boolean;
-    [key: string]: boolean | undefined;
+    Parking?: string | number;
+    bathrooms?: number;
+    bedrooms?: number;
+    [key: string]: boolean | undefined | number | string;
   };
-  image: string;
+  image: string | File;
   userEmail?: string;
   featured?: boolean;
   beds?: number;
@@ -30,8 +32,7 @@ export interface PropertyComponentProps {
   loading?: boolean;
   error?: string | null;
   onViewDetails?: (property: Property) => void;
-  onBookVisit?: (property: Property) => void;
-  onToggleFavorite?: (propertyId: string) => void;
+  onToggleFavorite?: (propertyId?: string) => void;
   favorites?: Set<string>;
 }
 
