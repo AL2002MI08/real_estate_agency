@@ -17,7 +17,7 @@ const GetStarted = () => {
           Secure your ideal residence promptly.
         </p>
 
-        <Button variant="none"
+        <Button variant="orange"
           onClick={() => navigate("/register")
           }
         >

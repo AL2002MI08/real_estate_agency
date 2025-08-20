@@ -24,7 +24,7 @@ const Contact: React.FC = () => {
                     <span className="text-gray-500">00000000000</span>
                   </div>
                 </div>
-                <button className="w-full bg-blue-100 text-purple-500 font-semibold text-sm py-2 rounded hover:bg-gradient-to-r hover:from-purple-500 hover:to-purple-600 hover:text-white hover:scale-90 transition-transform duration-300">
+                <button className="w-full bg-purple-100 text-purple-500 font-semibold text-sm py-2 rounded hover:bg-gradient-to-r hover:from-purple-500 hover:to-purple-600 hover:text-white hover:scale-90 transition-transform duration-300">
                   Call Now
                 </button>
               </div>
@@ -39,7 +39,7 @@ const Contact: React.FC = () => {
                     <span className="text-gray-500">00000000000</span>
                   </div>
                 </div>
-                <button className="w-full bg-blue-100 text-purple-500 font-semibold text-sm py-2 rounded hover:bg-gradient-to-r hover:from-purple-400 hover:to-purple-600 hover:text-white hover:scale-90 transition-transform duration-300">
+                <button className="w-full bg-purple-100 text-purple-500 font-semibold text-sm py-2 rounded hover:bg-gradient-to-r hover:from-purple-400 hover:to-purple-600 hover:text-white hover:scale-90 transition-transform duration-300">
                   Chat Now
                 </button>
               </div>
@@ -55,7 +55,7 @@ const Contact: React.FC = () => {
                     <span className="text-gray-500">@real_estate</span>
                   </div>
                 </div>
-                <button className="w-full bg-blue-100 text-purple-500 font-semibold text-sm py-2 rounded hover:bg-gradient-to-r hover:from-purple-400 hover:to-purple-600 hover:text-white hover:scale-90 transition-transform duration-300">
+                <button className="w-full bg-purple-100 text-purple-500 font-semibold text-sm py-2 rounded hover:bg-gradient-to-r hover:from-purple-400 hover:to-purple-600 hover:text-white hover:scale-90 transition-transform duration-300">
                   Follow
                 </button>
               </div>
@@ -70,7 +70,7 @@ const Contact: React.FC = () => {
                     <span className="text-gray-500">@real_estate</span>
                   </div>
                 </div>
-                <button className="w-full bg-blue-100 text-purple-500 font-semibold text-sm py-2 rounded hover:bg-gradient-to-r hover:from-purple-500 hover:to-purple-600 hover:text-white hover:scale-90 transition-transform duration-300">
+                <button className="w-full bg-purple-100 text-purple-500 font-semibold text-sm py-2 rounded hover:bg-gradient-to-r hover:from-purple-500 hover:to-purple-600 hover:text-white hover:scale-90 transition-transform duration-300">
                   Follow
                 </button>
               </div>
