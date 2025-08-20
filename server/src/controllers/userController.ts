@@ -152,22 +152,23 @@ export const toFav = async (req: Request, res: Response): Promise<void> => {
   }
 };
 
+
 export const getAllFavorites = async (req: Request, res: Response): Promise<void> => {
   try {
-    const { email }: UserEmailRequest = req.body;
-
+    const email = req.user?.email;
     if (!email) {
-      res.status(400).json({ error: "Email is required" });
+      res.status(401).json({ error: "Unauthorized" });
       return;
     }
+    const favoriteResidencies = await getAllFavoritesService(email);
 
-    const favResidenciesID = await getAllFavoritesService(email);
-    res.json({ favResidenciesID });
+    res.json(favoriteResidencies);
   } catch (error: unknown) {
-    if ((error as Error).message === 'User not found') {
+    if ((error as Error).message === "User not found") {
       res.status(404).json({ error: "User not found" });
       return;
     }
     res.status(500).json({ error: (error as Error).message });
   }
 };
+
