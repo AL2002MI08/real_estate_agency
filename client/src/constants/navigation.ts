@@ -6,6 +6,5 @@ export const guestLinks = [
 
 export const userLinks = [
   { name: "Residencies", to: "/residencies" },
-  { name: "Bookings", to: "/bookings" },
   { name: "Favorites", to: "/favorites" },
 ];

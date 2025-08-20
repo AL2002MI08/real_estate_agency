@@ -3,7 +3,7 @@ import { useCallback } from "react";
 import { FaHeart } from "react-icons/fa";
 
 export interface HeartIconProps {
-  propertyId: number ;
+  propertyId: number;
   isFavorite: boolean;
   onToggleFavorite: (propertyId: number) => void;
   disabled?: boolean;

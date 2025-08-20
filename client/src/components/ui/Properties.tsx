@@ -18,7 +18,6 @@ const Properties: React.FC<PropertyComponentProps> = ({
   loading = false,
   error = null,
   onViewDetails,
-  onBookVisit,
 }) => {
   const { favorites, isFavorite, toggleFavorite, loading: favoritesLoading } = useFavoriteResidency();
 
@@ -30,9 +29,6 @@ const Properties: React.FC<PropertyComponentProps> = ({
     if (onViewDetails) onViewDetails(property);
   }, [onViewDetails]);
 
-  const handleBookVisit = useCallback((property: Property) => {
-    if (onBookVisit) onBookVisit(property);
-  }, [onBookVisit]);
 
   const isLoading = loading || favoritesLoading;
 
@@ -70,12 +66,10 @@ const Properties: React.FC<PropertyComponentProps> = ({
         {displayedProperties.map((property: Property) => (
           <Card key={property.id} className="hover:shadow-xl transition-shadow duration-300">
             <Card.Header>
-              <img src={property.image} alt={property.title} className="w-full h-full object-cover" />
-              {property.featured && <Card.Action>Featured</Card.Action>}
-
+            <img src={typeof property.image === 'string' ? property.image : URL.createObjectURL(property.image)} alt={property.title} className="w-full h-full object-cover" />
               <HeartIcon
-                propertyId={property.id}
-                isFavorite={isFavorite(property.id)}
+                propertyId={property.id ?? 0}
+                isFavorite={isFavorite(property.id?? 0)}
                 onToggleFavorite={handleToggleFavorite}
                 disabled={!enableFavorites}
               />
@@ -100,7 +94,6 @@ const Properties: React.FC<PropertyComponentProps> = ({
 
             <Card.Footer>
               <Button variant="primary" onClick={() => handleViewDetails(property)}>View Details</Button>
-              <Button variant="secondary" onClick={() => handleBookVisit(property)}>Book Visit</Button>
             </Card.Footer>
           </Card>
         ))}
