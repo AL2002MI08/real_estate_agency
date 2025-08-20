@@ -6,7 +6,7 @@ export default function SignUpPage() {
   const navigate = useNavigate()
 
   const handleSignupSuccess = () => {
-    navigate('/');
+    navigate('/login');
   };
 
   return (
