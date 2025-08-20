@@ -38,7 +38,6 @@ const Layout: React.FC = () => {
             <section
               ref={sectionsRef.residencies}
               id="residencies"
-              className={commonSectionClasses}
             >
               <PopularResidencies />
             </section>
