@@ -6,7 +6,7 @@ import { Spinner } from "../components/ui/Spinner";
 
 
 const PropertyDetails: React.FC = () => {
-    const { id } = useParams<{ id: string }>();
+  const { id } = useParams<{ id: string }>();
   const { property, loading, error } = useGetPropertyDetails(id!)
 
   if (loading) return <Spinner />
@@ -18,7 +18,7 @@ const PropertyDetails: React.FC = () => {
       <div className="grid md:grid-cols-2 gap-8">
         <div className="relative">
           <img
-            src={property.image}
+            src={property.image as string}
             alt={property.title}
             className="rounded-2xl shadow-md w-full object-cover max-h-[500px]"
           />

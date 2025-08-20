@@ -1,9 +1,12 @@
 import React from "react";
 import Properties from "../components/ui/Properties";
 import useFavoriteResidency from "../hooks/useFavorite";
+import { useNavigate } from "react-router-dom";
+import type { Property } from "../types/propertyTypes";
 
 const FavoritesPage: React.FC = () => {
   const { favorites, loading } = useFavoriteResidency();
+  const navigate = useNavigate()
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -13,7 +16,7 @@ const FavoritesPage: React.FC = () => {
         properties={favorites}
         loading={loading}
         enableFavorites={true}
-        enableBookings={true}
+        onViewDetails={(property: Property) => navigate(`/residencies/${property.id}`)}
         className="pt-8"
       />
 
