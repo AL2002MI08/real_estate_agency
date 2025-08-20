@@ -1,9 +1,11 @@
 import * as React from 'react';
-import { TextField, Alert, Divider, Typography, Box } from '@mui/material';
+import { TextField, Alert, Divider, Typography, Box, InputAdornment, IconButton } from '@mui/material';
 import { FormCard } from '../components/FormCard';
 import { Link as RouterLink } from 'react-router-dom';
 import Button from '../components/ui/Button';
 import { useRegister } from '../hooks/useRegister';
+import { OpenEyeIcon } from '../assets/OpenEyeIcon';
+import { ClosedEyeIcon } from '../assets/ClosedEyeIcon';
 
 interface SignUpFormProps {
     onSuccess?: () => void;
@@ -18,6 +20,8 @@ export default function SignUpForm({ onSuccess }: SignUpFormProps) {
     });
     const [fieldErrors, setFieldErrors] = React.useState<Record<string, string>>({});
     const [apiError, setApiError] = React.useState('');
+    const [showPassword, setShowPassword] = React.useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = React.useState(false);
     const { loading, register } = useRegister();
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -43,8 +47,8 @@ export default function SignUpForm({ onSuccess }: SignUpFormProps) {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        setApiError(''); 
-        
+        setApiError('');
+
         if (!validate()) return;
 
         try {
@@ -93,7 +97,7 @@ export default function SignUpForm({ onSuccess }: SignUpFormProps) {
                 <TextField
                     fullWidth
                     label="Password"
-                    type="password"
+                    type={showPassword ? "text" : "password"}
                     name="password"
                     value={formData.password}
                     onChange={handleChange}
@@ -101,12 +105,21 @@ export default function SignUpForm({ onSuccess }: SignUpFormProps) {
                     helperText={fieldErrors.password}
                     disabled={loading}
                     required
+                    InputProps={{
+                        endAdornment: (
+                            <InputAdornment position="end">
+                                <IconButton onClick={() => setShowPassword(p => !p)} edge="end">
+                                    {showPassword ? <OpenEyeIcon /> : <ClosedEyeIcon />}
+                                </IconButton>
+                            </InputAdornment>
+                        ),
+                    }}
                 />
 
                 <TextField
                     fullWidth
                     label="Confirm Password"
-                    type="password"
+                    type={showPassword ? "text" : "password"}
                     name="confirmPassword"
                     value={formData.confirmPassword}
                     onChange={handleChange}
@@ -114,6 +127,15 @@ export default function SignUpForm({ onSuccess }: SignUpFormProps) {
                     helperText={fieldErrors.confirmPassword}
                     disabled={loading}
                     required
+                    InputProps={{
+                        endAdornment: (
+                            <InputAdornment position="end">
+                                <IconButton onClick={() => setShowConfirmPassword(p => !p)} edge="end">
+                                    {showConfirmPassword ? <OpenEyeIcon /> : <ClosedEyeIcon />}
+                                </IconButton>
+                            </InputAdornment>
+                        ),
+                    }}
                 />
 
                 <Button type="submit" variant="primary" disabled={loading}>

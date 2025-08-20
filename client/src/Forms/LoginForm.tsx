@@ -11,6 +11,9 @@ import { FormCard } from "../components/FormCard";
 import { Link as RouterLink, useNavigate } from 'react-router-dom'
 import Button from "../components/ui/Button";
 import { useAuth } from "../hooks/useAuth";
+import { IconButton, InputAdornment } from "@mui/material";
+import ClosedEyeIcon from "../assets/ClosedEyeIcon";
+import OpenEyeIcon from "../assets/OpenEyeIcon";
 
 interface LoginFormProps {
     onForgotPassword: () => void;
@@ -19,6 +22,7 @@ interface LoginFormProps {
 export function LoginForm({ onForgotPassword }: LoginFormProps) {
     const [errors, setErrors] = React.useState({ email: "", password: "", login: "" });
     const [formData, setFormData] = React.useState({ email: "", password: "" });
+    const [showPassword, setShowPassword] = React.useState(false);
     const [loading, setLoading] = React.useState(false);
     const { login } = useAuth();
     const navigate = useNavigate();
@@ -91,13 +95,22 @@ export function LoginForm({ onForgotPassword }: LoginFormProps) {
                     helperText={errors.password}
                     name="password"
                     label="Password"
-                    type="password"
+                    type={showPassword ? "text" : "password"}
                     value={formData.password}
                     onChange={handleChange}
                     disabled={loading}
                     fullWidth
                     required
                     autoComplete="current-password"
+                    InputProps={{
+                        endAdornment: (
+                            <InputAdornment position="end">
+                                <IconButton onClick={() => setShowPassword(p => !p)} edge="end">
+                                    {showPassword ? <OpenEyeIcon /> : <ClosedEyeIcon />}
+                                </IconButton>
+                            </InputAdornment>
+                        ),
+                    }}
                 />
 
                 <FormControlLabel

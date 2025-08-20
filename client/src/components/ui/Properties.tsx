@@ -86,9 +86,18 @@ const Properties: React.FC<PropertyComponentProps> = ({
               </Card.Description>
 
               <div className="flex items-center gap-4 text-gray-400 mt-4 text-sm">
-                <div className="flex items-center gap-1"><FaBed className="text-xs" />{property.beds} beds</div>
-                <div className="flex items-center gap-1"><FaBath className="text-xs" />{property.baths} baths</div>
-                <div className="flex items-center gap-1"><FaRulerCombined className="text-xs" />{property.sqft?.toLocaleString()} sqft</div>
+                <div className="flex items-center gap-1">
+                  <FaBed className="text-xs" />
+                  {property.facilities?.bedrooms || 0} beds
+                </div>
+                <div className="flex items-center gap-1">
+                  <FaBath className="text-xs" />
+                  {property.facilities?.bathrooms || 0} baths
+                </div>
+                <div className="flex items-center gap-1">
+                  <FaRulerCombined className="text-xs" />
+                  {property.facilities?.parkings || 0} parking
+                </div>
               </div>
             </Card.Content>
 
