@@ -1,7 +1,7 @@
 import React from "react";
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: "primary" | "secondary" | "outline" | "icon";
+  variant?: "primary" | "secondary" | "outline" | "icon" | "none";
 }
 
 export default function Button({
@@ -22,6 +22,7 @@ const variants = {
     "px-4 py-2 w-full border border-gray-300 text-gray-800 hover:bg-gray-100 focus:ring-gray-400",
   icon:
     "w-9 h-9 flex items-center justify-center bg-transparent hover:bg-gray-800/30 focus:ring-gray-800",
+  none: "bg-orange-500 text-white font-semibold px-6 py-3 rounded-lg shadow-lg hover:scale-105 transition-transform duration-200",
 };
 
 
