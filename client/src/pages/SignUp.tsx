@@ -1,11 +1,12 @@
 import { useNavigate } from 'react-router-dom';
-import SignUpForm from '../Forms/SignUpForm';
+import SignUpForm from '../Forms/SignupForm';
+
 
 export default function SignUpPage() {
   const navigate = useNavigate()
 
   const handleSignupSuccess = () => {
-    navigate('/home');
+    navigate('/');
   };
 
   return (
