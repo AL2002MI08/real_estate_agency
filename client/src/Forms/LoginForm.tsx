@@ -6,131 +6,118 @@ import Divider from "@mui/material/Divider";
 import Link from "@mui/material/Link";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
+import Alert from "@mui/material/Alert";
 import { FormCard } from "../components/FormCard";
-import { Button } from "../components/Button";
-import {Link as RouterLink} from 'react-router-dom'
+import { Link as RouterLink, useNavigate } from 'react-router-dom'
+import Button from "../components/ui/Button";
+import { useAuth } from "../hooks/useAuth";
 
 interface LoginFormProps {
     onForgotPassword: () => void;
-    onSubmit?: (email: string, password: string) => void;
 }
 
-
 export function LoginForm({ onForgotPassword }: LoginFormProps) {
-    const [emailError, setEmailError] = React.useState("");
-    const [passwordError, setPasswordError] = React.useState("");
+    const [errors, setErrors] = React.useState({ email: "", password: "", login: "" });
+    const [formData, setFormData] = React.useState({ email: "", password: "" });
+    const [loading, setLoading] = React.useState(false);
+    const { login } = useAuth();
+    const navigate = useNavigate();
 
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-        if (emailError || passwordError) return;
-
-        const formData = new FormData(event.currentTarget);
-        const email = formData.get("email") as string;
-        const password = formData.get("password") as string;
-
-        console.log({ email, password });
-        // onSubmit?.(email, password);
-    };
-
-    const validateEmail = (email: string) => {
-        if (!email || !/\S+@\S+\.\S+/.test(email)) {
-            setEmailError("Please enter a valid email address.");
-            return false;
+    const validate = (name: string, value: string) => {
+        if (name === "email") {
+            return !value.trim() ? "Email is required." :
+                !/\S+@\S+\.\S+/.test(value) ? "Invalid email address." : "";
         }
-        setEmailError("");
-        return true;
-    };
-
-    const validatePassword = (password: string) => {
-        if (!password || password.length < 8) {
-            setPasswordError("Password must be at least 8 characters long.");
-            return false;
+        if (name === "password") {
+            return !value.trim() ? "Password is required." :
+                value.length < 8 ? "Password must be at least 8 characters." : "";
         }
-        setPasswordError("");
-        return true;
+        return "";
     };
 
-    const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
-        if (name === "email") validateEmail(value);
-        if (name === "password") validatePassword(value);
+        setFormData(prev => ({ ...prev, [name]: value }));
+        setErrors(prev => ({ ...prev, [name]: validate(name, value), login: "" }));
+    };
+
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+
+        const emailError = validate("email", formData.email);
+        const passwordError = validate("password", formData.password);
+
+        if (emailError || passwordError) {
+            setErrors(prev => ({ ...prev, email: emailError, password: passwordError }));
+            return;
+        }
+        setLoading(true);
+        try {
+            await login(formData.email, formData.password);
+            navigate("/")
+        } catch (error) {
+            setErrors(prev => ({
+                ...prev,
+                login: typeof error === 'string' ? error : "Login failed. Invalid email or password."
+            }));
+        }
     };
 
     return (
         <FormCard variant="outlined">
-            <Typography
-                component="h1"
-                variant="h4"
-                sx={{
-                    fontWeight: 600,
-                    textAlign: 'center',
-                    color: 'text.primary'
-                }}
-            >
+            <Typography component="h1" variant="h4" sx={{ fontWeight: 600, textAlign: 'center' }}>
                 Sign in
             </Typography>
 
-            <Box
-                component="form"
-                onSubmit={handleSubmit}
-                noValidate
-                sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}
-            >
+            <Box component="form" onSubmit={handleSubmit} sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                {errors.login && <Alert severity="error">{errors.login}</Alert>}
+
                 <TextField
-                    error={!!emailError}
-                    helperText={emailError}
+                    error={!!errors.email}
+                    helperText={errors.email}
                     name="email"
                     label="Email"
                     type="email"
-                    placeholder="your@email.com"
-                    variant="outlined"
+                    value={formData.email}
+                    onChange={handleChange}
+                    disabled={loading}
                     fullWidth
                     required
-                    onBlur={handleBlur}
                     autoComplete="email"
                 />
 
                 <TextField
-                    error={!!passwordError}
-                    helperText={passwordError}
+                    error={!!errors.password}
+                    helperText={errors.password}
                     name="password"
                     label="Password"
                     type="password"
-                    placeholder="••••••"
-                    variant="outlined"
+                    value={formData.password}
+                    onChange={handleChange}
+                    disabled={loading}
                     fullWidth
                     required
-                    onBlur={handleBlur}
-                    autoComplete="password"
+                    autoComplete="current-password"
                 />
 
                 <FormControlLabel
-                    control={<Checkbox value="remember" color="primary" />}
+                    control={<Checkbox color="primary" />}
                     label="Remember me"
-                    sx={{ alignSelf: 'flex-start' }}
+                    disabled={loading}
                 />
 
-                <Button
-                    type="submit"
-                    buttonVariant="primary"
-                >
-                    Sign in
+                <Button type="submit" variant="primary" disabled={loading}>
+                    {loading ? 'Signing in...' : 'Sign in'}
                 </Button>
 
-                <Link
-                    component="button"
-                    type="button"
-                    onClick={onForgotPassword}
-                    variant="body2"
-                    sx={{ alignSelf: 'center', mt: 1 }}
-                >
+                <Link component="button" type="button" onClick={onForgotPassword} variant="body2" sx={{ alignSelf: 'center' }}>
                     Forgot your password?
                 </Link>
             </Box>
 
             <Divider sx={{ my: 2 }}>or</Divider>
 
-            <Typography variant="body2" sx={{ textAlign: 'center', mt: 1 }}>
+            <Typography variant="body2" sx={{ textAlign: 'center' }}>
                 Don't have an account?{' '}
                 <RouterLink to='/register' className="underline text-purple-500">
                     Sign up
