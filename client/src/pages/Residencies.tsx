@@ -16,9 +16,6 @@ const Residencies: React.FC = () => {
       loading={loading}           
       error={error}  
       onViewDetails={(property: Property) => navigate(`/residencies/${property.id}`)}
-      onBookVisit={(property: Property) => {
-        console.log("Booking visit for:", property);
-      }}
     />
   );
 };
