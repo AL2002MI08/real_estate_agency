@@ -5,7 +5,8 @@ const PropertiesSection = () => {
     const { loading, residencies, error } = useGetResidencies();
     return (
         <Properties
-            title="All Our Properties"
+            title="Popular Residencies"
+            subtitle="Discover the most sought-after properties"
             properties={residencies}
             enableFavorites={false}
             loading={loading}
