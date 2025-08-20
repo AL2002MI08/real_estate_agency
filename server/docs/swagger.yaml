@@ -10,7 +10,7 @@ servers:
 
 paths:
   # ---------------------- USER ROUTES ----------------------
-  /register:
+  /user/register:
     post:
       summary: Register a new user
       requestBody:
@@ -36,7 +36,7 @@ paths:
         400:
           description: Validation error or user already exists
 
-  /login:
+  /user/login:
     post:
       summary: Login a user
       requestBody:
@@ -92,7 +92,7 @@ paths:
           description: Unauthorized, invalid or missing token
 
   # ---------------------- RESIDENCY ROUTES ----------------------
-  /create:
+  /residency/create:
     post:
       summary: Create a new residency
       security:
@@ -109,7 +109,7 @@ paths:
         400:
           description: Validation error
 
-  /allresidencies:
+  /residency/allResidencies:
     get:
       summary: Get all residencies
       responses:
@@ -122,7 +122,7 @@ paths:
                 items:
                   $ref: '#/components/schemas/Residency'
 
-  /{id}:
+  /residency/{id}:
     get:
       summary: Get residency by ID
       parameters:
@@ -141,60 +141,6 @@ paths:
                 $ref: '#/components/schemas/Residency'
         404:
           description: Residency not found
-
-  # ---------------------- BOOKING ROUTES ----------------------
-  /bookVisit/{id}:
-    post:
-      summary: Book a visit for a residency
-      security:
-        - bearerAuth: []
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-          description: Residency ID
-      responses:
-        200:
-          description: Visit booked successfully
-        400:
-          description: Error booking visit
-        401:
-          description: Unauthorized
-
-  /allBookings:
-    post:
-      summary: Get all bookings for the user
-      responses:
-        200:
-          description: Returns all bookings
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Booking'
-
-  /removeBooking/{id}:
-    post:
-      summary: Cancel a booking
-      security:
-        - bearerAuth: []
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-          description: Booking ID
-      responses:
-        200:
-          description: Booking canceled successfully
-        400:
-          description: Error canceling booking
-        401:
-          description: Unauthorized
 
   # ---------------------- FAVORITES ROUTES ----------------------
   /toFav/{rid}:
@@ -265,16 +211,3 @@ components:
               - type: string
               - type: boolean
               - type: number
-
-    Booking:
-      type: object
-      properties:
-        id:
-          type: string
-        residencyId:
-          type: string
-        userId:
-          type: string
-        date:
-          type: string
-          format: date-time
