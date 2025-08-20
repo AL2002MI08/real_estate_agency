@@ -1,6 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
 import Layout from "../Layout/layout";
-import Home from "../pages/Home"; 
+import Home from "../pages/Home";
 import PropertyDetails from "../pages/PropertyDetails";
 import Login from "../pages/Login";
 import SignUpPage from "../pages/SignUp";
@@ -16,39 +16,39 @@ export const router = createBrowserRouter([
     errorElement: <ErrorPage />,
     children: [
       { index: true, element: <Home /> },
-      { 
-        path: "residencies", 
+      {
+        path: "residencies",
         element: (
           <PrivateRoute>
             <Residencies />
           </PrivateRoute>
-        ) 
+        )
       },
-      { 
-        path: "residencies/:id", 
+      {
+        path: "residencies/:id",
         element: (
           <PrivateRoute>
             <PropertyDetails />
           </PrivateRoute>
-        ) 
+        )
       },
-      { 
-        path: "favorites", 
+      {
+        path: "favorites",
         element: (
           <PrivateRoute>
             <FavoritesPage />
           </PrivateRoute>
-        ) 
+        )
       },
     ],
   },
-  { 
-    path: "/login", 
-    element: <Login /> 
+  {
+    path: "/login",
+    element: <Login />
   },
-  { 
-    path: "/register", 
-    element: <SignUpPage /> 
+  {
+    path: "/register",
+    element: <SignUpPage />
   },
 ]);
 
