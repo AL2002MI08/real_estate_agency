@@ -47,7 +47,7 @@ export const useAddProperty = (): UseAddPropertyReturn => {
             ...propertyData,
             userEmail: email,
             price: Number(propertyData.price),
-            image: URL.createObjectURL(propertyData.image as File)
+            image: propertyData.image
           }
         },
         { 

@@ -1,8 +1,8 @@
 import { FaBath, FaBed, FaMapMarkerAlt, FaRulerCombined } from "react-icons/fa";
 import { Card } from "../components/ui/PropertyCard";
 import { useParams } from "react-router-dom";
-import useGetPropertyDetails from "../hooks/useGetPropertyDetails";
 import { Spinner } from "../components/ui/Spinner";
+import useGetPropertyDetails from "../hooks/useGetPropertyDetails";
 
 
 const PropertyDetails: React.FC = () => {
@@ -35,13 +35,13 @@ const PropertyDetails: React.FC = () => {
           </p>
           <div className="flex flex-wrap gap-6 text-gray-600 mt-6">
             <div className="flex items-center gap-2">
-              <FaBed /> {property.beds} Beds
+              <FaBed /> {property.facilities?.bedrooms || 0} beds
             </div>
             <div className="flex items-center gap-2">
-              <FaBath /> {property.baths} Baths
+              <FaBath /> {property.facilities?.bathrooms || 0} baths
             </div>
             <div className="flex items-center gap-2">
-              <FaRulerCombined /> {property.sqft?.toLocaleString()} sqft
+              <FaRulerCombined /> {property.facilities?.parkings || 0} parkings
             </div>
           </div>
         </div>
@@ -54,8 +54,8 @@ const PropertyDetails: React.FC = () => {
       <Card className="mt-10 p-6">
         <h2 className="text-xl font-semibold mb-4">Facilities</h2>
         <ul className="grid sm:grid-cols-2 md:grid-cols-3 gap-4 text-gray-700">
-          {property.facilities?.Garden && <li>🌳 Garden</li>}
-          {property.facilities?.Parking && <li>🚗 Parking</li>}
+          {property.facilities?.bedrooms && <li><FaBed /> {property.facilities.bedrooms} bedrooms</li>}
+          {property.facilities?.parkings && <li><FaRulerCombined /> {property.facilities.parkings} parkings</li>}
         </ul>
       </Card>
     </section>

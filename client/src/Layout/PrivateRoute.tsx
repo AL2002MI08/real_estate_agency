@@ -11,7 +11,7 @@ export default function PrivateRoute({ children }: PrivateRouteProps) {
 
   if (loading) return null;
 
-  if (!loggedIn) return <Navigate to="/login" replace />;
+  if (!loggedIn) return <Navigate to="/" replace />;
 
   return <>{children}</>;
 }
