@@ -15,14 +15,14 @@ export function useRegister() {
 
     setLoading(true);
     try {
-      const res = await axios.post(`${apiUrl}/register`, {
+      const res = await axios.post(`${apiUrl}/user/register`, {
         name,
         email,
         password,
         confirmPassword: confirmPassword
       });
       const { data: user } = res as { data: User};
-      console.log("Response data:", user);
+ 
 
       if (user) {
         localStorage.setItem("token", user.token);
