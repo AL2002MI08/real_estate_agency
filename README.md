@@ -3,7 +3,7 @@
 
 A modern real estate platform helping users find their dream homes with adding properties, and favorites system.
 
-![Project Screenshot](<img width="1072" height="670" alt="image" src="https://github.com/user-attachments/assets/4be33b6c-68e4-4444-b5fd-863527d21322" />)
+![Project Screenshot]<img width="1072" height="670" alt="image" src="https://github.com/user-attachments/assets/4be33b6c-68e4-4444-b5fd-863527d21322" />
 
 ## ✨ Features
 
