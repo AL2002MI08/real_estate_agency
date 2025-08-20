@@ -1,24 +1,23 @@
 # 🏡 King's Real Estate
 
 
-A modern real estate platform helping users find their dream homes with intuitive search, booking, and favorites system.
+A modern real estate platform helping users find their dream homes with adding properties, and favorites system.
 
-![Project Screenshot](./screenshot.png) 
+![Project Screenshot](![alt text](image.png)) 
 
 ## ✨ Features
 
 - **User Authentication** (Signup/Login/Logout)
 - **Personalized Profiles** with user details
-- **Advanced Property Search** with filters
+- **Add Property** with details and images
 - **Favorites System** (❤️ save preferred homes)
-- **Property Booking** for visits
 - **Fully Responsive** design
 
 ## 🚀 Quick Start
 
 ### Prerequisites
 - Node.js 
-- npm  or yarn
+- npm run dev
 
 ### Installation
 1. Clone the repository:

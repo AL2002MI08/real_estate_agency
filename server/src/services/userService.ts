@@ -1,10 +1,15 @@
+
+import { In } from "typeorm";
 import { generateToken } from "../middleware/auth";
 import { getUserRepository } from "../repositories/user.repository";
 import { User, BookedVisit } from '../types/user.types';
+import { AppDataSource } from "../config/database";
+import { Residency } from "../entities/residency.entity";
 
 import bcrypt from "bcrypt";
 
 const userRepository = getUserRepository();
+const residencyRepository = AppDataSource.getRepository(Residency);
 export const registerUser = async (
   email: string,
   password: string,
@@ -161,15 +166,27 @@ export const toggleFavoriteService = async (
   return { message, user: updatedUser };
 };
 
-export const getAllFavoritesService = async (email: string): Promise<number[]> => {
+
+export const getAllFavoritesService = async (email: string) => {
   const user = await userRepository.findOne({
     where: { email },
-    select: ['favResidenciesID'],
+    select: ["favResidenciesID"],
   });
 
   if (!user) {
-    throw new Error('User not found');
+    throw new Error("User not found");
   }
 
-  return user.favResidenciesID || [];
+  const favoriteIds = user.favResidenciesID || [];
+
+  if (favoriteIds.length === 0) {
+    return [];
+  }
+
+  const favoriteProperties = await residencyRepository.find({
+    where: { id: In(favoriteIds) },
+  });
+
+  return favoriteProperties;
 };
+
