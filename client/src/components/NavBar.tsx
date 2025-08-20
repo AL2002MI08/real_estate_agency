@@ -3,10 +3,12 @@ import { useState } from "react";
 import Button from "./ui/Button";
 import { guestLinks, userLinks } from "../constants/navigation";
 import type { NavBarProps } from "../types/utils";
+import { AddPropertyModal } from "./AddPropertyModal";
 
 export default function NavBar({ loggedIn = false, sectionsRef, onLogout }: NavBarProps) {
     const navigate = useNavigate();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [modalOpen, setModalOpen] = useState(false);
 
     const handleNavigation = (id: string) => {
         const section = sectionsRef?.[id];
@@ -56,10 +58,18 @@ export default function NavBar({ loggedIn = false, sectionsRef, onLogout }: NavB
                         <Button variant="primary" onClick={() => navigate("/login")}>
                             Login
                         </Button>
-                    ) : (
+                    ) : 
+                    (
+                        <>
+                        <Button variant="secondary" onClick={() => setModalOpen(true)}>
+                            Add Property
+                        </Button>
+                            <AddPropertyModal opened={modalOpen} setOpened={setModalOpen}/>
+
                         <Button variant="secondary" onClick={onLogout}>
                             Logout
                         </Button>
+                        </>
                     )}
                 </div>
                 <Button
@@ -123,6 +133,13 @@ export default function NavBar({ loggedIn = false, sectionsRef, onLogout }: NavB
                                 Login
                             </Button>
                         ) : (
+ <div className="flex flex-col gap-4">
+                        <Button variant="secondary" onClick={() => setModalOpen(true)}>
+                            Add Property
+                        </Button>
+                            <AddPropertyModal opened={modalOpen} setOpened={setModalOpen}/>
+
+                        
                             <Button
                                 variant="secondary"
                                 onClick={() => {
@@ -130,9 +147,12 @@ export default function NavBar({ loggedIn = false, sectionsRef, onLogout }: NavB
                                     handleLinkClick();
                                 }}
                                 className="w-full"
-                            >
+                                >
                                 Logout
                             </Button>
+                                </div>
+                            
+
                         )}
                     </div>
                 </div>
